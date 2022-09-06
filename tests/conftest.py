@@ -25,10 +25,10 @@ def browser_type(browser):
 def pytest_addoption(parser):
     parser.addoption("--browser", default='chrome')
 
+
 config = configparser.ConfigParser()
 config.read('config.ini')
 app_url = config.get("APPLICATION", "url")
-
 
 
 # return browser to setup method
@@ -41,3 +41,5 @@ def browser(request):
 def connect_to_app(browser_type):
     driver = browser_type
     driver.get(app_url)
+    yield connect_to_app
+    driver.close()

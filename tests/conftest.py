@@ -1,9 +1,11 @@
 import logging
 
+import configparser
 import pytest
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
+
 
 @pytest.fixture()
 def browser_type(browser):
@@ -23,8 +25,19 @@ def browser_type(browser):
 def pytest_addoption(parser):
     parser.addoption("--browser", default='chrome')
 
+config = configparser.ConfigParser()
+config.read('config.ini')
+app_url = config.get("APPLICATION", "url")
+
+
 
 # return browser to setup method
 @pytest.fixture
 def browser(request):
     return request.config.getoption("--browser")
+
+
+@pytest.fixture(autouse=True, scope='function')
+def connect_to_app(browser_type):
+    driver = browser_type
+    driver.get(app_url)

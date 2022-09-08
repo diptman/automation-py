@@ -1,3 +1,5 @@
+import time
+
 from selenium.webdriver.common.by import By
 
 
@@ -8,6 +10,7 @@ class PhoneRecharge:
     _css_operator_name_dropdown = "li[data-show='{}']"
     _name_amount_input = "amount"
     _xpath_recharge_amount_value ="(//*[@class='main-info data-value']/b[text() ='{}'])[1]"
+    _xpath_recharge_submit_button="//button[@perform='payment' and @data-qa='celular-pay']"
 
     # functions
     def __init__(self, driver):
@@ -25,3 +28,6 @@ class PhoneRecharge:
     def enter_the_recharge_amount(self, amount):
         self.driver.find_element(By.NAME, self._name_amount_input).click()
         self.driver.find_element(By.XPATH, self._xpath_recharge_amount_value.format(amount)).click()
+
+    def click_on_submit_button(self):
+        self.driver.find_element(By.XPATH , self._xpath_recharge_submit_button).click()
